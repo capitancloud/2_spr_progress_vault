@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Shield, Key, Loader2, Lock, Eye, EyeOff } from 'lucide-react';
-import { ConceptCard } from '@/components/ConceptCard';
+
 
 const AccessGate: React.FC = () => {
   const { verifyCode, isLoading: accessLoading } = useAccessCode();
@@ -110,27 +110,6 @@ const AccessGate: React.FC = () => {
             </form>
           </CardContent>
         </Card>
-
-        {/* Educational Info */}
-        <ConceptCard
-          title="🔐 Come funziona la protezione?"
-          shortExplanation="Trasformiamo il codice in una 'impronta digitale' unica e irreversibile usando SHA-256"
-          fullExplanation="Il codice che inserisci viene trasformato in un hash, una stringa di caratteri apparentemente casuale. Come un'impronta digitale, è unica per ogni input ma non permette di risalire all'originale. Confrontiamo l'hash del codice inserito con quello corretto memorizzato."
-          realWorldExample="È come se la serratura non riconoscesse la chiave, ma solo l'impronta che la chiave lascia. Anche vedendo l'impronta, non puoi ricostruire la chiave!"
-          variant="warning"
-          defaultExpanded={true}
-        />
-
-        {/* Code Comment */}
-        <div className="code-block p-3 text-[10px] font-mono">
-          <span className="text-muted-foreground">// VERIFICA CON HASH:</span>
-          <br />
-          <span className="text-info">const</span> inputHash = <span className="text-success">await</span> sha256(codiceInserito);
-          <br />
-          <span className="text-info">const</span> isValid = inputHash === hashCorretto;
-          <br />
-          <span className="text-muted-foreground">// Il codice originale non viene MAI memorizzato!</span>
-        </div>
       </div>
     </div>
   );
