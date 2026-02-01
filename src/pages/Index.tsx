@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { useAccessCode } from '@/hooks/useAccessCode';
 import { useProgress } from '@/hooks/useProgress';
 import { ProgressCard } from '@/components/ProgressCard';
 import { DbOperationLog } from '@/components/DbOperationLog';
@@ -24,6 +25,7 @@ import {
   RefreshCw,
   Shield,
   Lightbulb,
+  KeyRound,
 } from 'lucide-react';
 
 const whatHappensSteps = [
@@ -57,6 +59,7 @@ const whatHappensSteps = [
 const Index: React.FC = () => {
   const navigate = useNavigate();
   const { user, isLoading: authLoading, signOut } = useAuth();
+  const { revokeAccess } = useAccessCode();
   const {
     progress,
     isLoading: progressLoading,
@@ -108,6 +111,12 @@ const Index: React.FC = () => {
     navigate('/auth', { replace: true });
   };
 
+  const handleRevokeAccess = () => {
+    signOut(); // Prima logout dall'account
+    revokeAccess(); // Poi revoca l'accesso con codice
+    toast.success('Accesso revocato. Dovrai reinserire il codice.');
+  };
+
   if (authLoading || progressLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
@@ -155,6 +164,16 @@ const Index: React.FC = () => {
             >
               <LogOut className="h-4 w-4" />
               <span className="hidden sm:inline">Esci</span>
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleRevokeAccess}
+              className="gap-2 text-warning hover:text-warning hover:bg-warning/10"
+              title="Esci completamente e torna alla schermata del codice di accesso"
+            >
+              <KeyRound className="h-4 w-4" />
+              <span className="hidden sm:inline">Revoca Accesso</span>
             </Button>
           </div>
         </div>
